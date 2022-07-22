@@ -4,7 +4,6 @@ from pydantic import BaseModel, EmailStr, Field
 
 
 class ProductSchema(BaseModel):
-    id : int = Field(unique=True)
     name: str = Field(...)
     description: Optional [str] 
     price: float = Field(...)
