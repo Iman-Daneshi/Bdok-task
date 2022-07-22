@@ -16,7 +16,7 @@ class Count():
 
 
 class BasketSchema(BaseModel):
-    items: List[ProductSchema]
+    items: List
     created_at: Optional[datetime] = None
     updated_at: Optional[datetime] = None
     status : Status
@@ -34,7 +34,6 @@ class BasketSchema(BaseModel):
 
 
 class UpdateBasketModel(BaseModel):
-    count: Optional[int]
     items: Optional[List]
     created_at : Optional[datetime]
     updated_at : Optional[datetime]

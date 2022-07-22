@@ -10,7 +10,7 @@ class UserSchema(BaseModel):
     first_name: str = Field(...)
     last_name: str = Field(...)
     email: EmailStr = Field(...)
-    password: str = Field(...)
+    password: str = Field(max_length=128)
     national_id: str = Field(...)
 
     class Config:
