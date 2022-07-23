@@ -5,3 +5,4 @@ motor==2.5.1
 python-jose[cryptography]
 passlib[bcrypt]
 python-multipart
+asyncstdlib

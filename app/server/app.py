@@ -23,7 +23,7 @@ from server.database import (
 )
 from server.models.user import ( UserSchema, UpdateUserModel)
 
-#from .database import user_collection
+from .database import user_collection 
 
 
 # to get a string like this run:
@@ -83,8 +83,8 @@ def get_user(db, username: str):
         return UserInDB(**user_dict)
 
 
-def authenticate_user(fake_db, username: str, password: str):
-    user = get_user(fake_db, username)
+def authenticate_user(db, username: str, password: str):
+    user = get_user(db,username)
     if not user:
         return False
     if not verify_password(password, user.hashed_password):
@@ -117,7 +117,7 @@ async def get_current_user(token: str = Depends(oauth2_scheme)):
         token_data = TokenData(username=username)
     except JWTError:
         raise credentials_exception
-    user = get_user(user_collection, username=token_data.username)
+    user = get_user(username=token_data.username)
     if user is None:
         raise credentials_exception
     return user
@@ -132,7 +132,7 @@ app = FastAPI()
 
 @app.post("/token", response_model=Token)
 async def login_for_access_token(form_data: OAuth2PasswordRequestForm = Depends()):
-    user = authenticate_user(user_collection, form_data.username, form_data.password)
+    user = authenticate_user(user_collection,form_data.username, form_data.password)
     if not user:
         raise HTTPException(
             status_code=status.HTTP_401_UNAUTHORIZED,
@@ -248,13 +248,13 @@ async def delete_basket_data(id: str, current_uer: User = Depends(get_current_ac
 @app.post("/user", tags=["user"], response_description="user data added into the database")
 async def add_user_data(user: UserSchema = Body(...)):
     user = jsonable_encoder(user)
-    user["password"]=get_password_hash(user["password"])
+    user["hashed_password"]=get_password_hash(user["hashed_password"])
     new_user = await add_user(user)
     return ResponseModel(new_user, "user added successfully.")
 
 
 @app.get("/user", tags=["user"], response_description="users retrieved")
-async def get_users(current_uer: User = Depends(get_current_active_user)):
+async def get_users():
     users = await retrieve_users()
     if users:
         return ResponseModel(users, "users data retrieved successfully")

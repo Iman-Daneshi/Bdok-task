@@ -10,7 +10,7 @@ class UserSchema(BaseModel):
     first_name: str = Field(...)
     last_name: str = Field(...)
     email: EmailStr = Field(...)
-    password: str = Field(max_length=128)
+    hashed_password: str = Field(max_length=128)
     national_id: str = Field(...)
 
     class Config:
@@ -20,7 +20,7 @@ class UserSchema(BaseModel):
                 "first_name": "Iman",
                 "last_name": "Daneshi",
                 "email": "iman@mail.com",
-                "password": "123456",
+                "hashed_password": "123456",
                 "national_id": "0020022381"
             }
         }
@@ -31,7 +31,7 @@ class UpdateUserModel(BaseModel):
     first_name: Optional[str]
     last_name: Optional[str]
     email: Optional[EmailStr]
-    password: Optional[str]
+    hashed_password: Optional[str]
     national_id: Optional[str]
 
     class Config:
@@ -41,7 +41,7 @@ class UpdateUserModel(BaseModel):
                 "first_name": "Iman",
                 "last_name": "Daneshi",
                 "email": "iman@mail.com",
-                "password": "123456",
+                "hashed_password": "123456",
                 "national_id": "0020022381"
             }
         }
