@@ -248,7 +248,6 @@ async def delete_basket_data(id: str, current_uer: User = Depends(get_current_ac
 @app.post("/user", tags=["user"], response_description="user data added into the database")
 async def add_user_data(user: UserSchema = Body(...)):
     user = jsonable_encoder(user)
-    user["hashed_password"]=get_password_hash(user["hashed_password"])
     new_user = await add_user(user)
     return ResponseModel(new_user, "user added successfully.")
 
